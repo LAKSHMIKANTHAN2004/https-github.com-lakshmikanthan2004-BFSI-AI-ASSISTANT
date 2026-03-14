@@ -1,0 +1,10 @@
+﻿User Query:
+ What is EMI and how is it calculated?
+Assistant Output:
+ EMI (Equated Monthly Installment) is the fixed amount you pay every month towards repayment of a loan. It includes both the principal amount and interest. The EMI amount depends on the loan amount, interest rate, and repayment tenure.
+
+
+User Query:
+ My EMI payment failed. What should I do?
+Assistant Output:
+ If your EMI payment has failed, please verify that your bank account has sufficient balance and try the transaction again. If the issue persists, contact your bank or customer support for further assistance.
