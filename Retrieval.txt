@@ -1,0 +1,53 @@
+﻿retrieval/rag_engine.py
+ import os
+import config
+from utils.embeddings import get_embedding
+import numpy as np
+import faiss
+
+
+class RAGEngine:
+
+
+    def __init__(self):
+
+
+        docs=[]
+        self.texts=[]
+
+
+        for f in os.listdir(config.RAG_DOC_PATH):
+
+
+            with open(config.RAG_DOC_PATH+f) as file:
+
+
+                text=file.read()
+
+
+                docs.append(get_embedding(text))
+
+
+                self.texts.append(text)
+
+
+        self.embeddings=np.array(docs).astype("float32")
+
+
+        self.index=faiss.IndexFlatL2(self.embeddings.shape[1])
+        self.index.add(self.embeddings)
+
+
+    def retrieve(self,query):
+
+
+        q_emb=np.array([get_embedding(query)]).astype("float32")
+
+
+        dist,idx=self.index.search(q_emb,config.MAX_RAG_DOCS)
+
+
+        results=[self.texts[i] for i in idx[0]]
+
+
+        return "\n".join(results)
