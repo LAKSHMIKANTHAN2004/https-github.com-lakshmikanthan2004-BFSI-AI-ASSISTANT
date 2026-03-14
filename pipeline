@@ -1,0 +1,59 @@
+pipeline
+services/response_pipeline.py
+from retrieval.similarity_search import DatasetSearch
+from retrieval.rag_engine import RAGEngine
+from models.slm_loader import generate_response
+from safety.guardrails import check_safety
+
+
+dataset_search = DatasetSearch()
+rag = RAGEngine()
+
+
+def process_query(query):
+
+
+    if not check_safety(query):
+
+
+        return "Sorry, this request cannot be processed due to security policies."
+
+
+    # Tier 1 Dataset
+
+
+    response = dataset_search.search(query)
+
+
+    if response:
+        return response
+
+
+    # Tier 3 RAG
+
+
+    context = rag.retrieve(query)
+
+
+    if context:
+
+
+        prompt=f"""
+Use the following banking knowledge to answer.
+
+
+{context}
+
+
+Question:
+{query}
+"""
+
+
+        return generate_response(prompt)
+
+
+    # Tier 2 SLM fallback
+
+
+    return generate_response(query)
