@@ -1,0 +1,23 @@
+﻿safety/guardrails.py
+ blocked_words=[
+"hack",
+"bypass",
+"fraud",
+"steal"
+]
+
+
+def check_safety(query):
+
+
+    q=query.lower()
+
+
+    for word in blocked_words:
+
+
+        if word in q:
+            return False
+
+
+    return True
